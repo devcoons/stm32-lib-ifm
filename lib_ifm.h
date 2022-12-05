@@ -1,0 +1,159 @@
+/*!
+	@file   lib_ifm.h
+	@brief  <brief description here>
+	@t.odo	-
+	---------------------------------------------------------------------------
+	
+	MIT License
+	
+	Copyright (c) 2021 Energica Motor Company (Io. D)
+	
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+*/
+/******************************************************************************
+* Preprocessor Definitions & Macros
+******************************************************************************/
+
+#ifndef LIB_IFM_H_
+#define LIB_IFM_H_
+
+/******************************************************************************
+* Includes
+******************************************************************************/
+
+#include <inttypes.h>
+#include <string.h>
+
+#if __has_include("../lib_ifm_config.h")
+	#include "../lib_ifm_config.h"
+	#define LIB_IFM_ENABLED
+#endif
+
+
+#ifdef LIB_IFM_ENABLED
+	#if __has_include("lib_crypto.h") && __has_include("drv_flash.h")
+		#include "lib_crypto.h"
+		#include "drv_flash.h"
+	#else
+		#error "Missing required library."
+		#undef LIB_IFM_ENABLED
+	#endif
+#endif
+
+#ifdef LIB_IFM_ENABLED
+
+/* --- Library checks to ensure everything is correctly configured ------- */
+
+#if defined(IFM_AS_BOOTLOADER) && defined(IFM_AS_APPLICATION) && defined(IFM_AS_NONE)
+	#error "IFM must be configured either as BOOTLOADER or APPLICATION or NONE"
+#elif defined(IFM_AS_BOOTLOADER) && defined(IFM_AS_APPLICATION)
+	#error "IFM must be configured either as BOOTLOADER or APPLICATION"
+#elif defined(IFM_AS_BOOTLOADER) && defined(IFM_AS_NONE)
+	#error "IFM must be configured either as BOOTLOADER or NONE"
+#elif defined(IFM_AS_APPLICATION) && defined(IFM_AS_NONE)
+	#error "IFM must be configured either as BOOTLOADER or NONE"
+#elif defined(IFM_AS_BOOTLOADER)
+#elif defined(IFM_AS_APPLICATION)
+#elif defined(IFM_AS_NONE)
+#else
+	#error "IFM must be configured either as BOOTLOADER or APPLICATION"
+#endif
+
+/******************************************************************************
+* Enumerations, structures & Variables
+******************************************************************************/
+
+#if !defined(ENUM_I_STATUS)
+#define ENUM_I_STATUS
+typedef enum
+{
+	I_OK 				= 0x00,
+	I_INVALID 			= 0x01,
+	I_EXISTS 			= 0x02,
+	I_NOTEXISTS 		= 0x03,
+	I_FAILED 			= 0x04,
+	I_EXPIRED 			= 0x05,
+	I_UNKNOWN 			= 0x06,
+	I_INPROGRESS 		= 0x07,
+	I_IDLE				= 0x08,
+	I_FULL				= 0x09,
+	I_EMPTY				= 0x0A,
+	I_YES				= 0x0B,
+	I_NO				= 0x0C,
+	I_SKIP				= 0x0D,
+	I_DEBUG_01 			= 0xE0,
+	I_DEBUG_02 			= 0xE1,
+	I_DEBUG_03 			= 0xE2,
+	I_DEBUG_04 			= 0xE3,
+	I_DEBUG_05 			= 0xE4,
+	I_DEBUG_06 			= 0xE5,
+	I_DEBUG_07 			= 0xE6,
+	I_DEBUG_08 			= 0xE7,
+	I_DEBUG_09 			= 0xE8,
+	I_DEBUG_10 			= 0xE9,
+	I_DEBUG_11 			= 0xEA,
+	I_DEBUG_12 			= 0xEB,
+	I_DEBUG_13 			= 0xEC,
+	I_DEBUG_14 			= 0xED,
+	I_DEBUG_15 			= 0xEE,
+	I_DEBUG_16 			= 0xEF,
+	I_MEMUNALIGNED 		= 0xFD,
+	I_NOTIMPLEMENTED 	= 0xFE,
+	I_ERROR 			= 0xFF
+	}i_status;
+#endif
+
+typedef enum
+{
+	IFM_BOOT_SOFTINFO_SI	= 0xF1,
+	IFM_BOOT_SOFTINFO_CA	= 0xF2,
+	IFM_BOOT_SOFTINFO_UV	= 0xF3,
+	IFM_BOOT_SOFTINFO_CB	= 0xF4,
+	IFM_APP_SOFTINFO_SI	= 0xE1,
+	IFM_APP_SOFTINFO_UV	= 0xE2,
+	IFM_APP_SOFTINFO_CB	= 0xE3,
+	IFM_DEVINFO_SN 		= 0x11,
+	IFM_DEVINFO_MD 		= 0x12,
+	IFM_DEVINFO_HC 		= 0x13,
+	IFM_DEVINFO_OP 		= 0x14,
+	IFM_APPINFO_PD 		= 0x21,
+	IFM_APPINFO_OC 		= 0x22,
+	IFM_APPINFO_FS 		= 0x23,
+	IFM_APPINFO_FV 		= 0x24
+}ifm_field;
+
+typedef enum
+{
+	IFM_BOOT_SOFTINFO	= 0xF0,
+	IFM_APP_SOFTINFO	= 0xE0,
+	IFM_DEVINFO 		= 0x10,
+	IFM_APPINFO 		= 0x20,
+}ifm_area;
+
+/******************************************************************************
+* Declaration | Public Functions
+******************************************************************************/
+
+i_status ifm_area_is_valid(ifm_area area);
+i_status ifm_retrieve(ifm_field, uint8_t*, uint8_t*);
+i_status ifm_invalidate_application_upgrade_info();
+
+/******************************************************************************
+* EOF - NO CODE AFTER THIS LINE
+******************************************************************************/
+#endif
+#endif

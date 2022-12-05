@@ -1,0 +1,96 @@
+/*!
+	@file   lib_ifm_config.h
+	@brief  <brief description here>
+	@t.odo	-
+*/
+
+/******************************************************************************
+* Preprocessor Definitions & Macros
+******************************************************************************/
+
+#define	IFMBOOT_SOFTINFO 	0x08000400		
+#define IFMAPP_SOFTINFO 	0x08020420 		
+#define IFMDEVINFO 		0x0801FF00				
+#define IFMAPPINFO 		0x08020000	
+
+// Choose one of the following
+
+#define IFM_AS_BOOTLOADER
+#define IFM_AS_APPLICATION
+#define IFM_AS_NONE
+
+/******************************************************************************
+* Post-include Definitions
+******************************************************************************/
+
+#if defined(IFM_AS_BOOTLOADER) || defined(IFM_AS_APPLICATION)
+
+/* --- CRC16_CCIT value calculation of the 64(-2) bytes area --------------- */
+
+#define IFM_SOFTINFO_CRC 		0xE127
+
+/* --- Software Identification (Code.Version) ------------------------------ */
+#if defined(IFM_AS_BOOTLOADER)
+#define IFM_SOFTINFO_SI 		0xF1
+#else
+#define IFM_SOFTINFO_SI 		0xE1
+#endif
+#define IFM_SOFTINFO_SISZ		0x0E
+#define IFM_SOFTINFO_SIDT0		'E'
+#define IFM_SOFTINFO_SIDT1		'N'
+#define IFM_SOFTINFO_SIDT2		'.'
+#define IFM_SOFTINFO_SIDT3		'W'
+#define IFM_SOFTINFO_SIDT4		'0'
+#define IFM_SOFTINFO_SIDT5		'0'
+#define IFM_SOFTINFO_SIDT6		'7'
+#define IFM_SOFTINFO_SIDT7		'7'
+#define IFM_SOFTINFO_SIDT8		'9'
+#define IFM_SOFTINFO_SIDT9		'1'
+#define IFM_SOFTINFO_SIDT10		'.'
+#define IFM_SOFTINFO_SIDT11		'0'
+#define IFM_SOFTINFO_SIDT12		'0'
+#define IFM_SOFTINFO_SIDT13		'1'
+
+#if defined(IFM_AS_BOOTLOADER)
+/* --- Compatible Application Software Identification --------------------- */
+#define IFM_SOFTINFO_CA			0xF2
+#define IFM_SOFTINFO_CASZ		0x0A
+#define IFM_SOFTINFO_CADT0		'E'
+#define IFM_SOFTINFO_CADT1		'N'
+#define IFM_SOFTINFO_CADT2		'.'
+#define IFM_SOFTINFO_CADT3		'W'
+#define IFM_SOFTINFO_CADT4		'0'
+#define IFM_SOFTINFO_CADT5		'0'
+#define IFM_SOFTINFO_CADT6		'0'
+#define IFM_SOFTINFO_CADT7		'1'
+#define IFM_SOFTINFO_CADT8		'2'
+#define IFM_SOFTINFO_CADT9		'3'
+#endif
+
+/* --- UDS Version  ------------------------------------------------------- */
+#if defined(IFM_AS_BOOTLOADER)
+#define IFM_SOFTINFO_UV 		0xF3
+#else
+#define IFM_SOFTINFO_UV 		0xE2
+#endif
+#define IFM_SOFTINFO_UVSZ		0x0A
+#define IFM_SOFTINFO_UVDT0		0x03
+#define IFM_SOFTINFO_UVDT1		0x00
+#define IFM_SOFTINFO_UVDT2		0x00
+#define IFM_SOFTINFO_UVDT3		0x00
+
+/* --- CANBus support ---------------------------------------------------- */
+
+#if defined(IFM_AS_BOOTLOADER)
+#define IFM_SOFTINFO_CB 		0xF4
+#else
+#define IFM_SOFTINFO_CB 		0xE3
+#endif
+#define IFM_SOFTINFO_CBSZ		0x01
+#define IFM_SOFTINFO_CBDT0		0x01
+
+#endif
+
+/******************************************************************************
+* EOF - NO CODE AFTER THIS LINE
+******************************************************************************/
