@@ -27,7 +27,7 @@
 
 /* --- CRC16_CCIT value calculation of the 64(-2) bytes area --------------- */
 
-#define IFM_SOFTINFO_CRC 		0xE127
+#define IFM_SOFTINFO_CRC 		0xAE64
 
 /* --- Software Identification (Code.Version) ------------------------------ */
 #if defined(IFM_AS_BOOTLOADER)
@@ -36,35 +36,35 @@
 #define IFM_SOFTINFO_SI 		0xE1
 #endif
 #define IFM_SOFTINFO_SISZ		0x0E
-#define IFM_SOFTINFO_SIDT0		'E'
-#define IFM_SOFTINFO_SIDT1		'N'
-#define IFM_SOFTINFO_SIDT2		'.'
-#define IFM_SOFTINFO_SIDT3		'W'
-#define IFM_SOFTINFO_SIDT4		'0'
-#define IFM_SOFTINFO_SIDT5		'0'
-#define IFM_SOFTINFO_SIDT6		'7'
-#define IFM_SOFTINFO_SIDT7		'7'
-#define IFM_SOFTINFO_SIDT8		'9'
-#define IFM_SOFTINFO_SIDT9		'1'
-#define IFM_SOFTINFO_SIDT10		'.'
-#define IFM_SOFTINFO_SIDT11		'0'
-#define IFM_SOFTINFO_SIDT12		'0'
-#define IFM_SOFTINFO_SIDT13		'1'
+#define IFM_SOFTINFO_SIDT0		'B'
+#define IFM_SOFTINFO_SIDT1		'O'
+#define IFM_SOFTINFO_SIDT2		'O'
+#define IFM_SOFTINFO_SIDT3		'T'
+#define IFM_SOFTINFO_SIDT4		'L'
+#define IFM_SOFTINFO_SIDT5		'O'
+#define IFM_SOFTINFO_SIDT6		'A'
+#define IFM_SOFTINFO_SIDT7		'D'
+#define IFM_SOFTINFO_SIDT8		'.'
+#define IFM_SOFTINFO_SIDT9		'C'
+#define IFM_SOFTINFO_SIDT10		'O'
+#define IFM_SOFTINFO_SIDT11		'D'
+#define IFM_SOFTINFO_SIDT12		'E'
+#define IFM_SOFTINFO_SIDT13		'.'
 
 #if defined(IFM_AS_BOOTLOADER)
 /* --- Compatible Application Software Identification --------------------- */
 #define IFM_SOFTINFO_CA			0xF2
 #define IFM_SOFTINFO_CASZ		0x0A
-#define IFM_SOFTINFO_CADT0		'E'
-#define IFM_SOFTINFO_CADT1		'N'
-#define IFM_SOFTINFO_CADT2		'.'
-#define IFM_SOFTINFO_CADT3		'W'
-#define IFM_SOFTINFO_CADT4		'0'
-#define IFM_SOFTINFO_CADT5		'0'
-#define IFM_SOFTINFO_CADT6		'0'
-#define IFM_SOFTINFO_CADT7		'1'
-#define IFM_SOFTINFO_CADT8		'2'
-#define IFM_SOFTINFO_CADT9		'3'
+#define IFM_SOFTINFO_CADT0		'A'
+#define IFM_SOFTINFO_CADT1		'P'
+#define IFM_SOFTINFO_CADT2		'P'
+#define IFM_SOFTINFO_CADT3		'L'
+#define IFM_SOFTINFO_CADT4		'.'
+#define IFM_SOFTINFO_CADT5		'C'
+#define IFM_SOFTINFO_CADT6		'O'
+#define IFM_SOFTINFO_CADT7		'D'
+#define IFM_SOFTINFO_CADT8		'E'
+#define IFM_SOFTINFO_CADT9		'.'
 #endif
 
 /* --- UDS Version  ------------------------------------------------------- */
